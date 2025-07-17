@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spack Digi Chatbot Assistant</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", "Segoe UI", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .chatbot-container {
+        width: 420px;
+        max-width: 95vw;
+        height: 600px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border-radius: 24px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .chat-header {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: #ffffff;
+        padding: 24px;
+        font-size: 22px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .status-indicator {
+        width: 10px;
+        height: 10px;
+        background: #10b981;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.7;
+          transform: scale(1.1);
+        }
+      }
+
+      .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .chat-messages::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .chat-messages::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+
+      .chat-messages::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+
+      .message-wrapper {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
+        max-width: 85%;
+      }
+
+      .message-wrapper.user {
+        align-self: flex-end;
+        flex-direction: row-reverse;
+      }
+
+      .message-wrapper.bot {
+        align-self: flex-start;
+      }
+
+      .message {
+        padding: 14px 18px;
+        border-radius: 20px;
+        font-size: 15px;
+        line-height: 1.5;
+        position: relative;
+        animation: messageSlide 0.4s ease-out;
+        white-space: pre-wrap;
+      }
+
+      @keyframes messageSlide {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .message.bot {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        color: #1e293b;
+        border-bottom-left-radius: 6px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .message.user {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: #ffffff;
+        border-bottom-right-radius: 6px;
+        box-shadow: 0 4px 16px rgba(79, 70, 229, 0.4);
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 600;
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .avatar.bot {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+      }
+
+      .avatar.user {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+      }
+
+      .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .option-btn {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid #e2e8f0;
+        color: #4f46e5;
+        padding: 10px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: left;
+        font-weight: 500;
+        font-size: 14px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .option-btn:hover {
+        background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        border-color: #4f46e5;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.25);
+      }
+
+      .chat-input {
+        display: flex;
+        border-top: 1px solid #e2e8f0;
+        background: #ffffff;
+        padding: 20px;
+        gap: 12px;
+      }
+
+      .input-wrapper {
+        flex: 1;
+        position: relative;
+      }
+
+      input {
+        width: 100%;
+        border: 1px solid #e2e8f0;
+        padding: 16px 20px;
+        font-size: 15px;
+        border-radius: 16px;
+        outline: none;
+        transition: all 0.3s ease;
+        background: #f8fafc;
+        font-family: inherit;
+      }
+
+      input:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        background: #ffffff;
+      }
+
+      .send-btn {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        border: none;
+        color: white;
+        padding: 16px 20px;
+        border-radius: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 18px;
+        box-shadow: 0 4px 16px rgba(79, 70, 229, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .send-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(79, 70, 229, 0.5);
+      }
+
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 14px 18px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        border-bottom-left-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .typing-text {
+        color: #64748b;
+        font-size: 14px;
+        margin-right: 8px;
+      }
+
+      .typing-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4f46e5;
+        animation: typing 1.4s infinite;
+      }
+
+      .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @keyframes typing {
+        0%,
+        60%,
+        100% {
+          transform: translateY(0);
+          opacity: 0.4;
+        }
+        30% {
+          transform: translateY(-8px);
+          opacity: 1;
+        }
+      }
+
+      .welcome-animation {
+        text-align: center;
+        padding: 40px 20px;
+        color: #64748b;
+      }
+
+      .welcome-logo {
+        font-size: 48px;
+        margin-bottom: 16px;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chatbot-container {
+          width: 100%;
+          height: 100vh;
+          border-radius: 0;
+        }
+
+        .chat-header {
+          padding: 20px;
+          font-size: 20px;
+        }
+
+        .message-wrapper {
+          max-width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chatbot-container">
+      <div class="chat-header">
+        <div class="header-left">
+          <span>🚀</span>
+          Spack Digi Assistant
+        </div>
+        <div class="status-indicator"></div>
+      </div>
+      <div class="chat-messages" id="chatbox">
+        <div class="welcome-animation">
+          <div class="welcome-logo">💻</div>
+          <p>Welcome to Spack Digi!</p>
+        </div>
+      </div>
+      <div class="chat-input" id="inputRow">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="userInput"
+            placeholder="Type your message..."
+            autocomplete="off"
+          />
+        </div>
+        <button class="send-btn" id="sendBtn">➤</button>
+      </div>
+    </div>
+
+    <script>
+      const chatbox = document.getElementById("chatbox");
+      const userInput = document.getElementById("userInput");
+      const sendBtn = document.getElementById("sendBtn");
+      const inputRow = document.getElementById("inputRow");
+
+      let step = 0;
+      const userData = {};
+      const mainOptions = [
+        "About Company",
+        "Our Services",
+        "Technology Stack",
+        "Contact Us",
+        "Pricing",
+      ];
+
+      const botContent = {
+        "About Company":
+          "Spack Digi is a software development company based in Hyderabad, India. We help businesses with digital transformation through web and mobile app development. We work with startups and enterprises to build custom software solutions.",
+
+        "Our Services":
+          "We offer:\n• Web Development (React, Node.js)\n• Mobile App Development (React Native, Flutter)\n• AI/ML Solutions and Chatbots\n• Cloud Services (AWS, GCP)\n• Digital Marketing & SEO\n\nWe handle everything from design to deployment.",
+
+        "Technology Stack":
+          "Frontend: React.js, React Native, HTML/CSS\nBackend: Node.js, Python\nDatabase: MySQL, MongoDB\nCloud: AWS, Firebase\nTools: GitHub, Docker, Postman\n\nOur team has expertise in modern web and mobile technologies.",
+
+        "Contact Us":
+          "Email: hello@spackdigi.com\nWebsite: www.spackdigi.com\nLocation: Hyderabad, Telangana, India\n\nBusiness Hours: Monday to Friday, 9:00 AM - 6:00 PM IST\n\nWe typically respond within 24 hours.",
+
+        Pricing:
+          "We offer flexible pricing models:\n• Fixed Price Projects\n• Monthly Retainer\n• Hourly Billing\n• Dedicated Team\n\nPricing depends on project scope and requirements. Contact us for a detailed quote based on your specific needs.",
+      };
+
+      const followUpOptions = {
+        "About Company": ["Our Services", "Technology Stack", "Contact Us"],
+        "Our Services": ["Technology Stack", "Pricing", "About Company"],
+        "Technology Stack": ["Our Services", "Pricing", "Contact Us"],
+        "Contact Us": ["Our Services", "Pricing", "About Company"],
+        Pricing: ["Our Services", "Contact Us", "Technology Stack"],
+      };
+
+      const invalidNames = [
+        "hello", "hey", "hi", "test", "admin", "user", "guest", "bot", "assistant"
+      ];
+
+      function isValidName(name) {
+        if (!name) return false;
+        const lower = name.trim().toLowerCase();
+        if (invalidNames.includes(lower)) return false;
+        // Only letters and spaces, at least 2 chars
+        return /^[a-zA-Z ]{2,30}$/.test(name.trim());
+      }
+
+      function isValidEmail(email) {
+        // Simple email regex
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+      }
+
+      function isValidMobile(mobile) {
+        // Only digits, 10-15 length
+        return /^\d{10,15}$/.test(mobile.trim());
+      }
+
+      function showError(msg) {
+        let toast = document.getElementById("toastError");
+        if (!toast) {
+          toast = document.createElement("div");
+          toast.id = "toastError";
+          toast.style.position = "absolute";
+          toast.style.left = "50%";
+          toast.style.bottom = "32px";
+          toast.style.transform = "translateX(-50%)";
+          toast.style.width = "90%";
+          toast.style.maxWidth = "420px";
+          toast.style.background = "rgba(225,29,72,0.92)";
+          toast.style.color = "#fff";
+          toast.style.padding = "16px 0";
+          toast.style.borderRadius = "14px";
+          toast.style.fontSize = "15px";
+          toast.style.fontWeight = "500";
+          toast.style.boxShadow = "0 6px 32px rgba(225,29,72,0.18)";
+          toast.style.zIndex = "1000";
+          toast.style.opacity = "0";
+          toast.style.pointerEvents = "none";
+          toast.style.transition = "opacity 0.4s";
+          toast.style.textAlign = "center";
+          document.querySelector('.chatbot-container').appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.style.opacity = "1";
+        setTimeout(() => {
+          toast.style.opacity = "0";
+        }, 2500);
+      }
+
+      function clearError() {
+        const toast = document.getElementById("toastError");
+        if (toast) toast.style.opacity = "0";
+      }
+
+      function createMessageWrapper(sender) {
+        const wrapper = document.createElement("div");
+        wrapper.className = `message-wrapper ${sender}`;
+        return wrapper;
+      }
+
+      function createAvatar(sender) {
+        const avatar = document.createElement("div");
+        avatar.className = `avatar ${sender}`;
+        if (sender === "bot") {
+          const img = document.createElement("img");
+          img.src = "spacklogo.webp";
+          img.alt = "Spack Digi Logo";
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = "cover";
+          img.style.borderRadius = "50%";
+          avatar.appendChild(img);
+        } else {
+          avatar.textContent = userData.name
+            ? userData.name[0].toUpperCase()
+            : "👤";
+        }
+        return avatar;
+      }
+
+      function appendMessage(text, sender = "bot") {
+        const wrapper = createMessageWrapper(sender);
+        const msg = document.createElement("div");
+        msg.className = `message ${sender}`;
+        msg.textContent = text;
+
+        if (sender === "bot") {
+          wrapper.appendChild(createAvatar("bot"));
+          wrapper.appendChild(msg);
+        } else {
+          wrapper.appendChild(msg);
+          wrapper.appendChild(createAvatar("user"));
+        }
+
+        chatbox.appendChild(wrapper);
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }
+
+      function showTypingIndicator() {
+        const wrapper = createMessageWrapper("bot");
+        const indicator = document.createElement("div");
+        indicator.className = "typing-indicator";
+        indicator.innerHTML =
+          '<span class="typing-text">Typing</span><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+        wrapper.appendChild(createAvatar("bot"));
+        wrapper.appendChild(indicator);
+        chatbox.appendChild(wrapper);
+        chatbox.scrollTop = chatbox.scrollHeight;
+
+        return wrapper;
+      }
+
+      function removeTypingIndicator(wrapper) {
+        if (wrapper && wrapper.parentNode) {
+          chatbox.removeChild(wrapper);
+        }
+      }
+
+      function botReply(text, delay = 1200) {
+        const typingWrapper = showTypingIndicator();
+        setTimeout(() => {
+          removeTypingIndicator(typingWrapper);
+          appendMessage(text, "bot");
+        }, delay);
+      }
+
+      function userReply(text) {
+        appendMessage(text, "user");
+      }
+
+      function showOptions(options = mainOptions, isFollowUp = false) {
+        const wrapper = createMessageWrapper("bot");
+        const optionsContainer = document.createElement("div");
+        optionsContainer.className = "options-container";
+
+        options.forEach((option) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.innerText = option;
+          btn.onclick = () => {
+            userReply(option);
+            const typingWrapper = showTypingIndicator();
+            setTimeout(() => {
+              removeTypingIndicator(typingWrapper);
+              appendMessage(botContent[option], "bot");
+              if (followUpOptions[option]) {
+                setTimeout(() => {
+                  botReply("What else would you like to know?", 600);
+                  setTimeout(() => {
+                    showOptions(followUpOptions[option], true);
+                  }, 1000);
+                }, 1000);
+              }
+            }, 1500);
+          };
+          optionsContainer.appendChild(btn);
+        });
+
+        if (!isFollowUp) {
+          const messageDiv = document.createElement("div");
+          messageDiv.className = "message bot";
+          messageDiv.appendChild(optionsContainer);
+          wrapper.appendChild(createAvatar("bot"));
+          wrapper.appendChild(messageDiv);
+          chatbox.appendChild(wrapper);
+          chatbox.scrollTop = chatbox.scrollHeight;
+        } else {
+          const messageDiv = document.createElement("div");
+          messageDiv.className = "message bot";
+          messageDiv.appendChild(optionsContainer);
+          wrapper.appendChild(createAvatar("bot"));
+          wrapper.appendChild(messageDiv);
+          chatbox.appendChild(wrapper);
+          chatbox.scrollTop = chatbox.scrollHeight;
+        }
+      }
+
+      function clearWelcome() {
+        const welcome = chatbox.querySelector(".welcome-animation");
+        if (welcome) {
+          welcome.remove();
+        }
+      }
+
+      function handleStep(input) {
+        switch (step) {
+          case 0:
+            clearWelcome();
+            botReply(
+              "Hello! I'm here to help you about Spack Digi. What's your name?",
+              800
+            );
+            step++;
+            break;
+          case 1:
+            if (!isValidName(input)) {
+              showError("Please enter a valid name (no greetings or special characters).");
+              return;
+            }
+            clearError();
+            userData.name = input;
+            userReply(input);
+            botReply(`Hi ${input}! Could you share your email address?`);
+            step++;
+            break;
+          case 2:
+            if (!isValidEmail(input)) {
+              showError("Please enter a valid email address.");
+              return;
+            }
+            clearError();
+            userData.email = input;
+            userReply(input);
+            botReply("Great! What's your phone number?");
+            step++;
+            break;
+          case 3:
+            if (!isValidMobile(input)) {
+              showError("Please enter a valid mobile number (10-15 digits).");
+              return;
+            }
+            clearError();
+            userData.mobile = input;
+            userReply(input);
+            botReply("Perfect! Now let me tell you about Spack Digi.");
+            setTimeout(() => {
+              botReply("What would you like to know?", 800);
+              setTimeout(() => {
+                showOptions();
+                inputRow.style.display = "none";
+              }, 1200);
+            }, 1000);
+            step++;
+            break;
+        }
+      }
+
+      sendBtn.onclick = () => {
+        const input = userInput.value.trim();
+        if (!input) return;
+        handleStep(input);
+        userInput.value = "";
+      };
+
+      userInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          sendBtn.click();
+        }
+      });
+
+      window.onload = () => {
+        setTimeout(() => handleStep(""), 1000);
+      };
+    </script>
+  </body>
+</html>
