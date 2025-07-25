@@ -345,7 +345,7 @@
     <div class="chatbot-container">
       <div class="chat-header">
         <div class="header-left">
-          <span>🚀</span>
+          <span></span>
           Spack Digi Assistant
         </div>
         <div class="status-indicator"></div>
@@ -378,19 +378,17 @@
       let step = 0;
       const userData = {};
       const mainOptions = [
-        "About Company",
-        "Our Services",
-        "Technology Stack",
-        "Contact Us",
-        "Pricing",
+        "💻 Software & Technology Services",
+        "📈 Digital Marketing Services",
       ];
 
       const botContent = {
         "About Company":
           "Spack Digi is a software development company based in Hyderabad, India. We help businesses with digital transformation through web and mobile app development. We work with startups and enterprises to build custom software solutions.",
 
-        "Our Services":
-          "We offer:\n• Web Development (React, Node.js)\n• Mobile App Development (React Native, Flutter)\n• AI/ML Solutions and Chatbots\n• Cloud Services (AWS, GCP)\n• Digital Marketing & SEO\n\nWe handle everything from design to deployment.",
+        "💻 Software & Technology Services": "",
+
+        "📈 Digital Marketing Services": "",
 
         "Technology Stack":
           "Frontend: React.js, React Native, HTML/CSS\nBackend: Node.js, Python\nDatabase: MySQL, MongoDB\nCloud: AWS, Firebase\nTools: GitHub, Docker, Postman\n\nOur team has expertise in modern web and mobile technologies.",
@@ -400,35 +398,131 @@
 
         Pricing:
           "We offer flexible pricing models:\n• Fixed Price Projects\n• Monthly Retainer\n• Hourly Billing\n• Dedicated Team\n\nPricing depends on project scope and requirements. Contact us for a detailed quote based on your specific needs.",
+
+        // Software & Technology detailed services
+        "Website Design & Development":
+          "Custom, mobile-friendly websites built for performance and conversions. We create responsive, fast-loading websites that drive results for your business.",
+
+        "Mobile App Development (iOS & Android)":
+          "We create fast, secure, and user-friendly mobile apps tailored to your goals. Our apps are built using the latest technologies for optimal performance.",
+
+        "SaaS Product Development":
+          "Need a custom software solution? We develop SaaS platforms from idea to launch. Complete end-to-end development with scalable architecture.",
+
+        "CRM & Business Automation Tools":
+          "Automate your workflow, lead management, and customer communication with smart CRM systems. Streamline your business processes for maximum efficiency.",
+
+        // Digital Marketing detailed services
+        "Branding & Identity Design":
+          "Logo, color palette, brand strategy & complete identity systems. We create memorable brand identities that resonate with your target audience.",
+
+        "SEO (Search Engine Optimization)":
+          "Rank higher on Google, drive organic traffic, and improve visibility. Our SEO strategies help you dominate search results and attract quality leads.",
+
+        "Social Media Marketing":
+          "Content, reels, ad strategy & growth on Instagram, Facebook, LinkedIn. We build engaging social media presence that converts followers into customers.",
+
+        "Paid Ads – Google, Meta & YouTube":
+          "Targeted ad campaigns to generate leads & sales with detailed reporting. Maximize your ROI with data-driven advertising strategies.",
+
+        "WhatsApp & Bulk SMS Marketing":
+          "Instant communication with your audience using smart messaging tools. Reach your customers directly with personalized messaging campaigns.",
+
+        "Content Creation":
+          "We design high-impact creatives, videos, and ad copy to engage your audience. Professional content that drives engagement and conversions.",
+      };
+
+      const serviceOptions = {
+        "💻 Software & Technology Services": [
+          "Website Design & Development",
+          "Mobile App Development (iOS & Android)",
+          "SaaS Product Development",
+          "CRM & Business Automation Tools",
+        ],
+        "📈 Digital Marketing Services": [
+          "Branding & Identity Design",
+          "SEO (Search Engine Optimization)",
+          "Social Media Marketing",
+          "Paid Ads – Google, Meta & YouTube",
+          "WhatsApp & Bulk SMS Marketing",
+          "Content Creation",
+        ],
       };
 
       const followUpOptions = {
-        "About Company": ["Our Services", "Technology Stack", "Contact Us"],
-        "Our Services": ["Technology Stack", "Pricing", "About Company"],
-        "Technology Stack": ["Our Services", "Pricing", "Contact Us"],
-        "Contact Us": ["Our Services", "Pricing", "About Company"],
-        Pricing: ["Our Services", "Contact Us", "Technology Stack"],
+        "💻 Software & Technology Services": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "📈 Digital Marketing Services": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "Website Design & Development": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "Mobile App Development (iOS & Android)": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "SaaS Product Development": ["Grab a Free Business Chat", "Free Demo"],
+        "CRM & Business Automation Tools": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+
+        "Branding & Identity Design": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "SEO (Search Engine Optimization)": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "Social Media Marketing": ["Grab a Free Business Chat", "Free Demo"],
+        "Paid Ads – Google, Meta & YouTube": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "WhatsApp & Bulk SMS Marketing": [
+          "Grab a Free Business Chat",
+          "Free Demo",
+        ],
+        "Content Creation": ["Grab a Free Business Chat", "Free Demo"],
+      };
+
+      const actionResponses = {
+        "Grab a Free Business Chat":
+          "Great! I'd love to show you our work. Please contact us to schedule a personalized demo of our software solutions!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+        "Free Demo":
+          "Perfect! Let's schedule a consultation call. Please reach out to us to book a convenient time slot!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+        "Get Quote":
+          "Excellent! For a detailed quote tailored to your needs, please contact us with your project requirements, and we'll get back to you within 24 hours!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+        "Talk to Expert":
+          "I'd be happy to connect you with our experts! Please email us or visit our website to schedule a free strategy call with our specialists!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
       };
 
       const invalidNames = [
-        "hello", "hey", "hi", "test", "admin", "user", "guest", "bot", "assistant"
+        "hello",
+        "hey",
+        "hi",
+        "test",
+        "admin",
+        "user",
+        "guest",
+        "bot",
+        "assistant",
       ];
 
       function isValidName(name) {
         if (!name) return false;
         const lower = name.trim().toLowerCase();
         if (invalidNames.includes(lower)) return false;
-        // Only letters and spaces, at least 2 chars
         return /^[a-zA-Z ]{2,30}$/.test(name.trim());
       }
 
-      function isValidEmail(email) {
-        // Simple email regex
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-      }
-
       function isValidMobile(mobile) {
-        // Only digits, 10-15 length
         return /^\d{10,15}$/.test(mobile.trim());
       }
 
@@ -455,7 +549,7 @@
           toast.style.pointerEvents = "none";
           toast.style.transition = "opacity 0.4s";
           toast.style.textAlign = "center";
-          document.querySelector('.chatbot-container').appendChild(toast);
+          document.querySelector(".chatbot-container").appendChild(toast);
         }
         toast.textContent = msg;
         toast.style.opacity = "1";
@@ -479,6 +573,7 @@
         const avatar = document.createElement("div");
         avatar.className = `avatar ${sender}`;
         if (sender === "bot") {
+          // image bot avatar
           const img = document.createElement("img");
           img.src = "spacklogo.webp";
           img.alt = "Spack Digi Logo";
@@ -499,7 +594,7 @@
         const wrapper = createMessageWrapper(sender);
         const msg = document.createElement("div");
         msg.className = `message ${sender}`;
-        msg.textContent = text;
+        msg.innerHTML = text;
 
         if (sender === "bot") {
           wrapper.appendChild(createAvatar("bot"));
@@ -557,40 +652,51 @@
           btn.innerText = option;
           btn.onclick = () => {
             userReply(option);
-            const typingWrapper = showTypingIndicator();
-            setTimeout(() => {
-              removeTypingIndicator(typingWrapper);
-              appendMessage(botContent[option], "bot");
-              if (followUpOptions[option]) {
-                setTimeout(() => {
-                  botReply("What else would you like to know?", 600);
-                  setTimeout(() => {
-                    showOptions(followUpOptions[option], true);
-                  }, 1000);
-                }, 1000);
-              }
-            }, 1500);
+            handleOptionClick(option);
           };
           optionsContainer.appendChild(btn);
         });
 
-        if (!isFollowUp) {
-          const messageDiv = document.createElement("div");
-          messageDiv.className = "message bot";
-          messageDiv.appendChild(optionsContainer);
-          wrapper.appendChild(createAvatar("bot"));
-          wrapper.appendChild(messageDiv);
-          chatbox.appendChild(wrapper);
-          chatbox.scrollTop = chatbox.scrollHeight;
-        } else {
-          const messageDiv = document.createElement("div");
-          messageDiv.className = "message bot";
-          messageDiv.appendChild(optionsContainer);
-          wrapper.appendChild(createAvatar("bot"));
-          wrapper.appendChild(messageDiv);
-          chatbox.appendChild(wrapper);
-          chatbox.scrollTop = chatbox.scrollHeight;
-        }
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "message bot";
+        messageDiv.appendChild(optionsContainer);
+        wrapper.appendChild(createAvatar("bot"));
+        wrapper.appendChild(messageDiv);
+        chatbox.appendChild(wrapper);
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }
+
+      function handleOptionClick(option) {
+        const typingWrapper = showTypingIndicator();
+
+        setTimeout(() => {
+          removeTypingIndicator(typingWrapper);
+
+          if (actionResponses[option]) {
+            appendMessage(actionResponses[option], "bot");
+            return;
+          }
+
+          if (botContent[option] && botContent[option] !== "") {
+            appendMessage(botContent[option], "bot");
+          }
+
+          if (serviceOptions[option]) {
+            setTimeout(() => {
+              showOptions(serviceOptions[option], true);
+            }, 1000);
+          } else if (followUpOptions[option]) {
+            setTimeout(() => {
+              botReply(
+                "🧩 Want to see examples or get a quote? Just select an option below:",
+                600
+              );
+              setTimeout(() => {
+                showOptions(followUpOptions[option], true);
+              }, 1000);
+            }, 1000);
+          }
+        }, 1500);
       }
 
       function clearWelcome() {
@@ -605,44 +711,34 @@
           case 0:
             clearWelcome();
             botReply(
-              "Hello! I'm here to help you about Spack Digi. What's your name?",
+              "Hello! I'm here to assist you with Spack Digi. Please provide your Name and Mobile Number (e.g., John Doe, 9876543210).",
               800
             );
             step++;
             break;
           case 1:
-            if (!isValidName(input)) {
-              showError("Please enter a valid name (no greetings or special characters).");
+            const parts = input.split(",");
+            if (parts.length !== 2) {
+              showError(
+                "Please provide both Name and Mobile Number, separated by a comma."
+              );
+              return;
+            }
+            const name = parts[0].trim();
+            const mobile = parts[1].trim();
+            if (!isValidName(name) || !isValidMobile(mobile)) {
+              showError(
+                "Please provide a valid name and a valid mobile number (e.g., John Doe, 9876543210)."
+              );
               return;
             }
             clearError();
-            userData.name = input;
-            userReply(input);
-            botReply(`Hi ${input}! Could you share your email address?`);
-            step++;
-            break;
-          case 2:
-            if (!isValidEmail(input)) {
-              showError("Please enter a valid email address.");
-              return;
-            }
-            clearError();
-            userData.email = input;
-            userReply(input);
-            botReply("Great! What's your phone number?");
-            step++;
-            break;
-          case 3:
-            if (!isValidMobile(input)) {
-              showError("Please enter a valid mobile number (10-15 digits).");
-              return;
-            }
-            clearError();
-            userData.mobile = input;
-            userReply(input);
-            botReply("Perfect! Now let me tell you about Spack Digi.");
+            userData.name = name;
+            userData.mobile = mobile;
+            userReply(`${name}, ${mobile}`);
+            botReply("Great! Now let me introduce you to Spack Digi.");
             setTimeout(() => {
-              botReply("What would you like to know?", 800);
+              botReply("What would you like to explore?", 800);
               setTimeout(() => {
                 showOptions();
                 inputRow.style.display = "none";
@@ -670,5 +766,25 @@
         setTimeout(() => handleStep(""), 1000);
       };
     </script>
+    <style>
+      .contact-btn {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        margin: 5px 0;
+        display: inline-block;
+        box-shadow: 0 4px 16px rgba(79, 70, 229, 0.4);
+      }
+
+      .contact-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(79, 70, 229, 0.5);
+      }
+    </style>
   </body>
 </html>
