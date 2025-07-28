@@ -396,7 +396,7 @@
           "Frontend: React.js, React Native, HTML/CSS\nBackend: Node.js, Python\nDatabase: MySQL, MongoDB\nCloud: AWS, Firebase\nTools: GitHub, Docker, Postman\n\nOur team has expertise in modern web and mobile technologies.",
 
         "Contact Us":
-          "Email: hello@spackdigi.com\nWebsite: www.spackdigi.com\nLocation: Hyderabad, Telangana, India\n\nBusiness Hours: Monday to Friday, 9:00 AM - 6:00 PM IST\n\nWe typically respond within 24 hours.",
+          "Email: contact@spackdigi.com\nWebsite: www.spackdigi.com\nLocation: Hyderabad, Telangana, India\n\nBusiness Hours: Monday to Friday, 9:00 AM - 6:00 PM IST\n\nWe typically respond within 24 hours.",
 
         Pricing:
           "We offer flexible pricing models:\n• Fixed Price Projects\n• Monthly Retainer\n• Hourly Billing\n• Dedicated Team\n\nPricing depends on project scope and requirements. Contact us for a detailed quote based on your specific needs.",
@@ -496,13 +496,16 @@
 
       const actionResponses = {
         "Grab a Free Business Chat":
-          "Great! I'd love to show you our work. Please contact us to schedule a personalized demo of our software solutions!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+          "Great! I'd love to show you our work. Please contact us to schedule a personalized demo of our software solutions!\n<a href='tel:+919666700566'><button class='contact-btn'>📞 Call to +919666700566</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ contact@spackdigi.com</button></a>\n<a href='https://wa.me/919666700566' target='_blank'><button class='contact-btn'>💬 WhatsApp</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+
         "Free Demo":
-          "Perfect! Let's schedule a consultation call. Please reach out to us to book a convenient time slot!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+          "Perfect! Let's schedule a consultation call. Please reach out to us to book a convenient time slot!\n<a href='tel:+919666700566'><button class='contact-btn'>📞 Call to +919666700566</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ contact@spackdigi.com</button></a>\n<a href='https://wa.me/919666700566' target='_blank'><button class='contact-btn'>💬 WhatsApp</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+
         "Get Quote":
-          "Excellent! For a detailed quote tailored to your needs, please contact us with your project requirements, and we'll get back to you within 24 hours!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+          "Excellent! For a detailed quote tailored to your needs, please contact us with your project requirements, and we'll get back to you within 24 hours!\n<a href='tel:+919666700566'><button class='contact-btn'>📞 Call to +919666700566</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ contact@spackdigi.com</button></a>\n<a href='https://wa.me/919666700566' target='_blank'><button class='contact-btn'>💬 WhatsApp</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+
         "Talk to Expert":
-          "I'd be happy to connect you with our experts! Please email us or visit our website to schedule a free strategy call with our specialists!\n<a href='tel:+919391938388'><button class='contact-btn'>📞 Call to +919391938388</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ hello@spackdigi.com</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
+          "I'd be happy to connect you with our experts! Please email us or visit our website to schedule a free strategy call with our specialists!\n<a href='tel:+919666700566'><button class='contact-btn'>📞 Call to +919666700566</button></a>\n<a href='mailto:hello@spackdigi.com'><button class='contact-btn'>✉️ contact@spackdigi.com</button></a>\n<a href='https://wa.me/919666700566' target='_blank'><button class='contact-btn'>💬 WhatsApp</button></a>\n<a href='https://www.spackdigi.com' target='_blank'><button class='contact-btn'>🌐 Visit Website</button></a>",
       };
 
       const invalidNames = [
@@ -604,7 +607,6 @@
           wrapper.appendChild(msg);
           wrapper.appendChild(createAvatar("user"));
         }
-
         chatbox.appendChild(wrapper);
         chatbox.scrollTop = chatbox.scrollHeight;
       }
@@ -615,12 +617,10 @@
         indicator.className = "typing-indicator";
         indicator.innerHTML =
           '<span class="typing-text">Typing</span><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-
         wrapper.appendChild(createAvatar("bot"));
         wrapper.appendChild(indicator);
         chatbox.appendChild(wrapper);
         chatbox.scrollTop = chatbox.scrollHeight;
-
         return wrapper;
       }
 
@@ -669,13 +669,10 @@
 
       function handleOptionClick(option) {
         const typingWrapper = showTypingIndicator();
-
         setTimeout(() => {
           removeTypingIndicator(typingWrapper);
-
-          if (actionResponses[option]) {
-            appendMessage(actionResponses[option], "bot");
-
+          if (followUpOptions[selectedFollowUp]?.includes(option)) {
+            appendMessage(actionResponses[option] || "Thank you!", "bot");
             fetch(
               "https://script.google.com/macros/s/AKfycbyezfnZlE_ZTt2_vHN9zjGaThk7uqWI9Eg7GLn-IcoqQur9LjZl5UstmzSyAXbTKq_nOg/exec",
               {
@@ -687,14 +684,13 @@
                   name: userData.name,
                   mobile: userData.mobile,
                   serviceOption: selectedService || "N/A",
-                  followUpOption: option,
+                  followUpOption: selectedFollowUp || "N/A",
                 }),
               }
             )
               .then((res) => res.text())
               .then((result) => console.log("Sheet result:", result))
               .catch((err) => console.error("Error sending final:", err));
-
             return;
           }
 
@@ -703,9 +699,12 @@
           }
 
           if (serviceOptions[option]) {
-            selectedService = option; // store selected service
+            selectedService = option;
             showOptions(serviceOptions[option], true);
-          } else if (followUpOptions[option]) {
+            return;
+          }
+
+          if (followUpOptions[option]) {
             selectedFollowUp = option;
             botReply(
               "🧩 Want to see examples or get a quote? Just select an option below:",
@@ -714,6 +713,7 @@
             setTimeout(() => {
               showOptions(followUpOptions[option], true);
             }, 1000);
+            return;
           }
         }, 1500);
       }
