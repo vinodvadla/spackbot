@@ -376,6 +376,8 @@
       const inputRow = document.getElementById("inputRow");
 
       let step = 0;
+      let selectedService = "";
+      let selectedFollowUp = "";
       const userData = {};
       const mainOptions = [
         "💻 Software & Technology Services",
@@ -573,7 +575,6 @@
         const avatar = document.createElement("div");
         avatar.className = `avatar ${sender}`;
         if (sender === "bot") {
-          // image bot avatar
           const img = document.createElement("img");
           img.src = "spacklogo.webp";
           img.alt = "Spack Digi Logo";
@@ -674,6 +675,26 @@
 
           if (actionResponses[option]) {
             appendMessage(actionResponses[option], "bot");
+
+            fetch(
+              "https://script.google.com/macros/s/AKfycbyezfnZlE_ZTt2_vHN9zjGaThk7uqWI9Eg7GLn-IcoqQur9LjZl5UstmzSyAXbTKq_nOg/exec",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "text/plain;charset=utf-8",
+                },
+                body: JSON.stringify({
+                  name: userData.name,
+                  mobile: userData.mobile,
+                  serviceOption: selectedService || "N/A",
+                  followUpOption: option,
+                }),
+              }
+            )
+              .then((res) => res.text())
+              .then((result) => console.log("Sheet result:", result))
+              .catch((err) => console.error("Error sending final:", err));
+
             return;
           }
 
@@ -682,18 +703,16 @@
           }
 
           if (serviceOptions[option]) {
-            setTimeout(() => {
-              showOptions(serviceOptions[option], true);
-            }, 1000);
+            selectedService = option; // store selected service
+            showOptions(serviceOptions[option], true);
           } else if (followUpOptions[option]) {
+            selectedFollowUp = option;
+            botReply(
+              "🧩 Want to see examples or get a quote? Just select an option below:",
+              600
+            );
             setTimeout(() => {
-              botReply(
-                "🧩 Want to see examples or get a quote? Just select an option below:",
-                600
-              );
-              setTimeout(() => {
-                showOptions(followUpOptions[option], true);
-              }, 1000);
+              showOptions(followUpOptions[option], true);
             }, 1000);
           }
         }, 1500);
@@ -716,6 +735,7 @@
             );
             step++;
             break;
+
           case 1:
             const parts = input.split(",");
             if (parts.length !== 2) {
@@ -732,11 +752,32 @@
               );
               return;
             }
-            clearError();
+
             userData.name = name;
             userData.mobile = mobile;
+
             userReply(`${name}, ${mobile}`);
             botReply("Great! Now let me introduce you to Spack Digi.");
+
+            // 🔴 STEP 1: Store initial name & mobile with placeholder values
+            fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: name,
+                mobile: mobile,
+                serviceOption: "N/A",
+                followUpOption: "N/A",
+              }),
+            })
+              .then((res) => res.text())
+              .then((result) => {
+                console.log("Sheet result:", result);
+              })
+              .catch((err) => console.error("Sheet error:", err));
+
             setTimeout(() => {
               botReply("What would you like to explore?", 800);
               setTimeout(() => {
@@ -744,6 +785,7 @@
                 inputRow.style.display = "none";
               }, 1200);
             }, 1000);
+
             step++;
             break;
         }
